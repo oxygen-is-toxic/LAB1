@@ -7,21 +7,12 @@ The tide measurement file is a txt file whose name
 corresponds to the name defined in the preprocessor
 directive.  It is a series of NUMBER_OF_READINGS tidal
 readings (in mm) taken hourly.
-Author:			  Li Qingyang and Nick Vo
-Student #s:		  11056892 and 12345678
-CS Accounts:	oxygen16@students.cs.ubc.ca and @student.cs.ubc.ca
-Date:				  September 27, 2020
-*/
-
-/******************************************************************
-PLEASE EDIT THIS FILE
-
-Sections of code in this file are missing.  You must fill them in.
-Comments that start with // should be replaced with code
-Comments that are surrounded by * are hints
-******************************************************************/
 
 /* Preprocessor directives */
+
+/*Note: I did not get all the questions correctly. Got 5/6.*/
+
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
