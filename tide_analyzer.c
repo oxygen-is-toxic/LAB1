@@ -7,12 +7,21 @@ The tide measurement file is a txt file whose name
 corresponds to the name defined in the preprocessor
 directive.  It is a series of NUMBER_OF_READINGS tidal
 readings (in mm) taken hourly.
+Author:			  Li Qingyang and Nick Vo
+Student #s:		  11056892 and 19308576
+CS Accounts:	  oxygen16@students.cs.ubc.ca and qli22@student.cs.ubc.ca
+Date:			  September 27, 2020
+*/
+
+/******************************************************************
+PLEASE EDIT THIS FILE
+
+Sections of code in this file are missing.  You must fill them in.
+Comments that start with // should be replaced with code
+Comments that are surrounded by * are hints
+******************************************************************/
 
 /* Preprocessor directives */
-
-/*Note: I did not get all the questions correctly. Got 5/6.*/
-
-
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,7 +54,7 @@ void run_analysis()
 {
     /* Variables */
     double readings[NUMBER_OF_READINGS]; /* Copy the data file to this array */
-    double complex_component[NUMBER_OF_READINGS]; /* Can be used for the complex results of fft */
+    double complex_component[NUMBER_OF_READINGS] = { 0.0 }; /* Can be used for the complex results of fft */
     double omega[NUMBER_OF_READINGS]; /* Tidal frequencies */
     double frequency = 0.0;                /* Tides occur with this frequency the most... */
     double amplitude = 0.0;                /* ...and that frequency occured this many times */
@@ -60,7 +69,7 @@ void run_analysis()
                                               the results to be doubles, so you need to do some casting.
                                               */
     for (i = 0; i < NUMBER_OF_READINGS; i++)
-        omega[i] = (double)i * SAMPLING_FREQUENCY * 1.0 / NUMBER_OF_READINGS;
+        omega[i] = i * (double)SAMPLING_FREQUENCY / NUMBER_OF_READINGS;
 
 
     /* Opens the file (a text file, not a binary file) for reading, and not writing,
@@ -89,7 +98,7 @@ void run_analysis()
     array and change each readings[i] to equal (readings[i]^2 + complex_component[i]^2)^(1/2)
     */
     for (i = 0; i < NUMBER_OF_READINGS; ++i)
-        readings[i] = 1.0 * pow(pow(readings[i], 2) + pow(complex_component[i], 2), 1 / 2);
+        readings[i] = 1.0 * sqrt(pow(readings[i], 2) + pow(complex_component[i], 2));
 
 
 
@@ -108,7 +117,7 @@ void run_analysis()
     */
     for (i = 0; i < NUMBER_OF_READINGS / 2; ++i) {
         if (omega[i] >= NOISE_FILTER)
-            if (readings[i] > frequency) {
+            if (readings[i] > amplitude) {
                 amplitude = readings[i];
                 frequency = omega[i];
             }
@@ -121,7 +130,7 @@ void run_analysis()
     printf("Max Frequency = %lf Max Amplitude = %lf\n", frequency, amplitude);
 
     /* Creates (opens) a result file using fopen_s */
-//fopen_s(&file_pointer, RESULT_FILE_NAME, "w"); // (for Visual Studio)
+    //fopen_s(&file_pointer, RESULT_FILE_NAME, "w"); // (for Visual Studio)
     file_pointer = fopen(RESULT_FILE_NAME, "w"); // (for GradeScope submission)
 
                                               /* Writes the result to the file */
@@ -155,7 +164,7 @@ void process_file(double array_to_populate[], FILE* pointer_to_data_file)
     int extracted_values[MAX_VALUES_PER_LINE];
     int readings_processed = 0;
     int values_per_line = 0;
-
+    int a = 0;
     /* Copies the file, line by line, to line buffer using fgets in a while loop */
     while (fgets(line_buffer, LINESIZE, pointer_to_data_file) != NULL) {
 
@@ -170,9 +179,10 @@ void process_file(double array_to_populate[], FILE* pointer_to_data_file)
         /* Copies the extracted integers to our data array.  Use a for loop for each
         for each of the values_per_line cells in the local array, and add the value
         stored in the cell to the end of the array we are populating with data value. */
-
+        
         for (int i = 0; i < values_per_line; ++i) {
-            array_to_populate[i] = extracted_values[i];
+            array_to_populate[a] = extracted_values[i];
+            a++;
         }
         /* Keep track of what has been processed.  Increment the number of readings processed
            by the number of values successfully extracted from the line in the file. */
